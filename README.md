@@ -74,7 +74,7 @@ Here's the [list of Roadmap features](https://www.notion.so/Modules-Beginner-Le
 
 ---
 
-If you need help, or you want to compare your version with our simple version, here are two public repositories with the solution:
+If you need help, or you want to compare your version with our simple version, here the public repositories with the solution:
 
 [https://github.com/DiazFarindra/laravel-beginner-demo-project](https://github.com/DiazFarindra/laravel-beginner-demo-project)
 
