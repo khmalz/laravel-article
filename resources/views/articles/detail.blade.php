@@ -1,6 +1,10 @@
 <x-app-layout>
    <x-slot name="header">
-      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ auth()->user()->name == $article->user->name ? __('My Article') : __('Article') }}</h2>
+      @auth
+         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ auth()->user()->name == $article->user->name ? __('My Article') : __('Article') }}</h2>
+      @else
+         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">{{  __('Article') }}</h2>
+      @endauth
    </x-slot>
 
    <div class="py-12">

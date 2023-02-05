@@ -21,8 +21,8 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if($articleId)
-                        <x-nav-link :href="route('articles.all_articles')" :active="$articleId != auth()->user()->id && request()->routeIs(['articles.all_articles', 'articles.show'])">
+                    @if($articleId && !empty(auth()->user()))
+                    <x-nav-link :href="route('articles.all_articles')" :active="$articleId != auth()->user()->id && request()->routeIs(['articles.all_articles', 'articles.show'])">
                             {{ __('Article') }}
                         </x-nav-link>
                     @else
@@ -35,7 +35,7 @@
                 @auth
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false ) || request()->routeIs('articles.index')">
+                    <x-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false ) || request()->routeIs(['articles.index', 'articles.create', 'articles.edit'])">
                         {{ __('My Article') }}
                     </x-nav-link>
                 </div>
@@ -113,7 +113,7 @@
         @endauth
 
         <div class="pt-2 pb-3 space-y-1">
-            @if($articleId)
+            @if($articleId && !empty(auth()->user()))
                 <x-responsive-nav-link :href="route('articles.all_articles')" :active="$articleId != auth()->user()->id && request()->routeIs(['articles.all_articles', 'articles.show'])">
                     {{ __('Article') }}
                 </x-responsive-nav-link>
@@ -126,7 +126,7 @@
         
         @auth
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false ) || request()->routeIs('articles.index')">
+                <x-responsive-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false ) || request()->routeIs(['articles.index', 'articles.create', 'articles.edit'])">
                     {{ __('My Article') }}
                 </x-responsive-nav-link>
             </div>

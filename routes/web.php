@@ -24,9 +24,10 @@ Route::get('/about-me', function () {
 })->middleware(['auth', 'verified'])->name('about_me');
 
 Route::get('all-articles', [ArticleController::class, 'allArticles'])->name('articles.all_articles');
-Route::resource('articles', ArticleController::class);
 
 Route::middleware('auth')->group(function () {
+    Route::resource('articles', ArticleController::class);
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
