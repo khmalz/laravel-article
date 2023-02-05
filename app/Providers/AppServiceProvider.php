@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer(
+            'layouts.navigation',
+            function ($view) {
+                $view->with('articleId', Article::where('slug', last(request()->segments()))->value('user_id'));
+            }
+        );
     }
 }
