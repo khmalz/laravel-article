@@ -36,25 +36,30 @@
                                 </svg>
                             </a>
                             <div class="flex items-center gap-x-1">
-                                <button type="button" class="rounded bg-rose-500 p-1 text-2xl hover:bg-rose-600">
-                                    <span>
-                                        <svg viewBox="0 0 24 24" fill="none" class="h-6 w-6"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                    d="M3 4L5.30343 18.0765C5.54671 19.5633 6.60471 20.7872 8.04061 21.2431L8.36905 21.3473C10.7316 22.0973 13.2684 22.0973 15.6309 21.3473L15.9594 21.2431C17.3953 20.7872 18.4533 19.5633 18.6966 18.0765L21 4"
-                                                    stroke="#fff" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                                <ellipse cx="12" cy="4" rx="9" ry="2"
-                                                    stroke="#fff" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"></ellipse>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </button>
+                                <form action="{{ route('articles.destroy', $article->slug) }}" method="post">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" onclick="return confirm('Yakin untuk menghapusnya?')"
+                                        class="rounded bg-rose-500 p-1 text-2xl hover:bg-rose-600">
+                                        <span>
+                                            <svg viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M3 4L5.30343 18.0765C5.54671 19.5633 6.60471 20.7872 8.04061 21.2431L8.36905 21.3473C10.7316 22.0973 13.2684 22.0973 15.6309 21.3473L15.9594 21.2431C17.3953 20.7872 18.4533 19.5633 18.6966 18.0765L21 4"
+                                                        stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                    <ellipse cx="12" cy="4" rx="9" ry="2"
+                                                        stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></ellipse>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </form>
                                 <a href="/articles/{{ $article->slug }}/edit"
                                     class="inline-flex items-center rounded bg-sky-500 p-1 text-2xl text-white hover:bg-sky-600">
                                     <span>
