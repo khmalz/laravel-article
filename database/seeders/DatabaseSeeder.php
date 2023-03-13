@@ -4,11 +4,13 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Tag;
 use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -64,6 +66,59 @@ class DatabaseSeeder extends Seeder
             'slug' => 'others'
         ]);
 
+        Tag::create([
+            'name' => 'Laravel',
+            'slug' => 'laravel'
+        ]);
+
+        Tag::create([
+            'name' => 'PHP',
+            'slug' => 'php'
+        ]);
+
+        Tag::create([
+            'name' => 'Javascript',
+            'slug' => 'javascript'
+        ]);
+
+        Tag::create([
+            'name' => 'HTML',
+            'slug' => 'html'
+        ]);
+
+        Tag::create([
+            'name' => 'CSS',
+            'slug' => 'css'
+        ]);
+
+        Tag::create([
+            'name' => 'Java',
+            'slug' => 'java'
+        ]);
+
+        Tag::create([
+            'name' => 'C',
+            'slug' => 'c'
+        ]);
+
+        Tag::create([
+            'name' => 'C++',
+            'slug' => 'cplusplus'
+        ]);
+
+        Tag::create([
+            'name' => 'C#',
+            'slug' => 'csharp'
+        ]);
+
         Article::factory(30)->create();
+
+        $tags = Tag::get();
+
+        Article::all()->each(function ($article) use ($tags) {
+            $article->tags()->sync(
+                $tags->random(rand(1, 9))->pluck('id')
+            );
+        });
     }
 }

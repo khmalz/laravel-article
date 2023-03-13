@@ -35,6 +35,11 @@ class Article extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

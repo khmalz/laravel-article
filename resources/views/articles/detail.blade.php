@@ -37,16 +37,10 @@
                         <div class="w-100 flex gap-x-2">
                             <h5 class="min-w-[60px] text-sm">Tag</h5>
                             <div class="flex flex-wrap gap-y-1">
-                                <span
-                                    class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $article->category->name }}</span>
-                                <span
-                                    class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $article->category->name }}</span>
-                                <span
-                                    class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $article->category->name }}</span>
-                                <span
-                                    class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $article->category->name }}</span>
-                                <span
-                                    class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $article->category->name }}</span>
+                                @foreach ($article->tags as $tag)
+                                    <span
+                                        class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $tag->name }}</span>
+                                @endforeach
                             </div>
                         </div>
                     </div>
