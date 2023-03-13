@@ -9,6 +9,8 @@
                 @foreach ($articles as $article)
                     <div
                         class="flex max-w-lg flex-col flex-wrap items-start justify-between self-stretch rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+                        <span
+                            class="mb-2 rounded bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">{{ $article->category->name }}</span>
                         <a href="articles/{{ $article->slug }}">
                             <h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{ $article->title }}</h1>
@@ -16,12 +18,8 @@
                         <p class="mb-3 text-sm font-normal text-gray-700 dark:text-gray-400 sm:text-base">
                             {{ $article->body }}</p>
                         <div class="flex w-full items-center justify-between">
-                            <div class="flex items-center">
-                                <span
-                                    class="mr-2 rounded bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">Category</span>
-                                <h5 class="text-xs tracking-tight text-gray-500 dark:text-white sm:text-sm">By
-                                    {{ $article->user->name }}</h5>
-                            </div>
+                            <h5 class="text-xs tracking-tight text-gray-500 dark:text-white sm:text-sm">By
+                                {{ $article->user->name }}</h5>
                             <a href="articles/{{ $article->slug }}"
                                 class="inline-flex items-center rounded-lg bg-blue-700 py-2 px-3 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Read
                                 More

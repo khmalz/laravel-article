@@ -13,7 +13,7 @@ class Article extends Model
     use Sluggable;
 
     protected $guarded = ['id'];
-    protected $with = ['user'];
+    protected $with = ['user', 'category'];
 
     protected $casts = [
         'created_at' => 'date: d M Y',
@@ -28,6 +28,11 @@ class Article extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function getRouteKeyName()

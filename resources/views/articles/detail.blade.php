@@ -32,7 +32,7 @@
                         <h5 class="text-sm">Category</h5>
                         <div>
                             <span
-                                class="mr-2 rounded bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">Indigo</span>
+                                class="mr-2 rounded bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">{{ $article->category->name }}</span>
                         </div>
                     </div>
                 </div>
