@@ -19,7 +19,7 @@
                             <x-input-label for="title" :value="__('Title')" />
                             <x-text-input id="title"
                                 class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                type="text" name="title" :value="old('title')" required autofocus />
+                                type="text" name="title" :value="old('title')" autofocus />
                             <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
 
@@ -27,8 +27,25 @@
                             <x-input-label for="body" :value="__('Body')" />
                             <textarea id="body"
                                 class="mt-1 h-28 w-full rounded-lg border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                name="body" required>{{ old('body') }}</textarea>
+                                name="body">{{ old('body') }}</textarea>
                             <x-input-error :messages="$errors->get('body')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-3">
+                            <x-input-label for="category" :value="__('Category')" />
+                            <x-select name="category_id">
+                                @if (!old('category_id'))
+                                    <option selected disabled value="">Choose a category</option>
+                                @endif
+                                @foreach ($categories as $category)
+                                    @if (old('category_id') == $category->id)
+                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                            </x-select>
+                            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                         </div>
 
                         <button type="submit"

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Category;
 use Illuminate\View\View;
+use App\Http\Requests\ArticleRequest;
+use Illuminate\Http\RedirectResponse;
 
 class ArticleController extends Controller
 {
@@ -30,7 +31,7 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
-        return view('articles.create');
+        return view('articles.create', ["categories" => Category::get()]);
     }
 
     /**
