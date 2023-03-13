@@ -11,6 +11,10 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
+    @if (isset($css))
+        {{ $css }}
+    @endif
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -32,6 +36,10 @@
         <main>
             {{ $slot }}
         </main>
+
+        @if (isset($js))
+            {{ $js }}
+        @endif
     </div>
 </body>
 

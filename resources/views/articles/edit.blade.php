@@ -1,4 +1,8 @@
 <x-app-layout>
+    <x-slot name="css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    </x-slot>
+
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ __('Edit Article') }}</h2>
     </x-slot>
@@ -56,4 +60,8 @@
             </div>
         </div>
     </div>
+
+    <x-slot name="js">
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    </x-slot>
 </x-app-layout>
