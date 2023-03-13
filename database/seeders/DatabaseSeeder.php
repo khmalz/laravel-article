@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +28,42 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(3)->create();
-        Article::factory(20)->create();
+
+        Category::create([
+            'name' => 'Personal',
+            'slug' => 'personal'
+        ]);
+
+        Category::create([
+            'name' => 'Design',
+            'slug' => 'design'
+        ]);
+
+        Category::create([
+            'name' => 'Web',
+            'slug' => 'web'
+        ]);
+
+        Category::create([
+            'name' => 'Artificial Intelligence',
+            'slug' => 'artificial-intelligence'
+        ]);
+
+        Category::create([
+            'name' => 'Dev Ops',
+            'slug' => 'dev-ops'
+        ]);
+
+        Category::create([
+            'name' => 'Machine Learning',
+            'slug' => 'machine-learning'
+        ]);
+
+        Category::create([
+            'name' => 'Others',
+            'slug' => 'others'
+        ]);
+
+        Article::factory(30)->create();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +22,8 @@ class ArticleFactory extends Factory
         $slug = str()->slug($title);
 
         return [
-            'user_id' => User::all()->random()->id,
+            'category_id' => Category::get('id')->random(),
+            'user_id' => User::get('id')->random(),
             'title' => $title,
             'slug' => $slug,
             'body' => fake()->paragraph(8)
