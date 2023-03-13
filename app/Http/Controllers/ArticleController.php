@@ -58,7 +58,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article): View
     {
-        return view('articles.edit', compact('article'));
+        $categories = Category::get();
+        return view('articles.edit', compact('article', 'categories'));
     }
 
     /**
