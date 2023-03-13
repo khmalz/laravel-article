@@ -34,9 +34,8 @@
                         <div class="mb-3">
                             <x-input-label for="category" :value="__('Category')" />
                             <x-select name="category_id">
-                                @if (!old('category_id'))
-                                    <option selected disabled value="">Choose a category</option>
-                                @endif
+                                <option {{ !old('category_id') ? 'selected' : '' }} disabled value="">Choose a
+                                    category</option>
                                 @foreach ($categories as $category)
                                     @if (old('category_id') == $category->id)
                                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
