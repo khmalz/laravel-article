@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\View\View;
@@ -31,7 +32,7 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
-        return view('articles.create', ["categories" => Category::get()]);
+        return view('articles.create', ["categories" => Category::get(), "tags" => Tag::get()]);
     }
 
     /**
@@ -39,7 +40,8 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
-        Article::create($request->validated());
+        $article = Article::create($request->validated());
+        $article->tags()->attach($request->tags);
 
         return to_route('articles.index');
     }
@@ -49,7 +51,6 @@ class ArticleController extends Controller
      */
     public function show(Article $article): View
     {
-        // return $article;
         return view('articles.detail', compact('article'));
     }
 
@@ -59,7 +60,8 @@ class ArticleController extends Controller
     public function edit(Article $article): View
     {
         $categories = Category::get();
-        return view('articles.edit', compact('article', 'categories'));
+        $tags = Tag::get();
+        return view('articles.edit', compact('article', 'categories', 'tags'));
     }
 
     /**
@@ -68,6 +70,7 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
         $article->update($request->validated());
+        $article->tags()->sync($request->tags);
 
         return to_route('articles.index');
     }
@@ -77,6 +80,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article): RedirectResponse
     {
+        $article->tags()->detach();
         $article->delete();
 
         return to_route('articles.index');

@@ -27,6 +27,7 @@ class ArticleRequest extends FormRequest
             'title' => ['required', 'max:255'],
             'user_id' => ['required'],
             'category_id' => ['required'],
+            'tags' => ['required', 'array', 'min:1'],
             'body' => ['required']
         ];
     }

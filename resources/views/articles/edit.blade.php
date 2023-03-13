@@ -53,6 +53,19 @@
                             <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                         </div>
 
+                        <div class="mb-3">
+                            <x-input-label for="tags" :value="__('Tag')" />
+                            <x-select name="tags[]" class="multiple mt-1" multiple>
+                                @foreach ($article->tags as $tag)
+                                    <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
+                                @endforeach
+                                @foreach ($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </x-select>
+                            <x-input-error :messages="$errors->get('tags')" class="mt-2" />
+                        </div>
+
                         <button type="submit"
                             class="inline-flex items-center rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white ring-gray-300 transition duration-150 ease-in-out hover:bg-blue-700 focus:border-gray-900 focus:outline-none focus:ring disabled:opacity-25">Edit</button>
                     </form>

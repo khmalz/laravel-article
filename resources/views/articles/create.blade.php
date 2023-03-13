@@ -35,9 +35,9 @@
                             <x-input-error :messages="$errors->get('body')" class="mt-2" />
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <x-input-label for="category" :value="__('Category')" />
-                            <x-select name="category_id">
+                            <x-select name="category_id" class="mt-1">
                                 <option {{ !old('category_id') ? 'selected' : '' }} disabled value="">Choose a
                                     category</option>
                                 @foreach ($categories as $category)
@@ -49,6 +49,20 @@
                                 @endforeach
                             </x-select>
                             <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-3">
+                            <x-input-label for="tags" :value="__('Tag')" />
+                            <x-select name="tags[]" class="multiple mt-1" multiple>
+                                @foreach ($tags as $tag)
+                                    @if (old('tags') == $tag->id)
+                                        <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
+                                    @else
+                                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                    @endif
+                                @endforeach
+                            </x-select>
+                            <x-input-error :messages="$errors->get('tags')" class="mt-2" />
                         </div>
 
                         <button type="submit"
