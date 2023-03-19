@@ -20,7 +20,7 @@ class ArticleFactory extends Factory
     {
         return [
             'category_id' => Category::get('id')->random(),
-            'user_id' => User::get('id')->skip(1)->random(),
+            'user_id' => User::oldest()->get('id')->skip(1)->random(),
             'title' => rtrim(fake()->sentence(rand(3, 6)), '.'),
             'body' => fake()->paragraph(8)
         ];

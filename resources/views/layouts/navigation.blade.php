@@ -35,24 +35,30 @@
 
                 @auth
                     <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false) ||
-                            request()->routeIs(['articles.index', 'articles.create', 'articles.edit'])">
-                            {{ __('My Article') }}
-                        </x-nav-link>
-                    </div>
+                    @if (!auth()->user()->hasRole('Super Admin'))
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false) ||
+                                request()->routeIs(['articles.index', 'articles.create', 'articles.edit'])">
+                                {{ __('My Article') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
 
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('category.index')" :active="request()->routeIs(['category.index', 'category.create', 'category.edit'])">
-                            {{ __('Category') }}
-                        </x-nav-link>
-                    </div>
+                    @can('category_access')
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('category.index')" :active="request()->routeIs(['category.index', 'category.create', 'category.edit'])">
+                                {{ __('Category') }}
+                            </x-nav-link>
+                        </div>
+                    @endcan
 
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('tag.index')" :active="request()->routeIs(['tag.index', 'tag.create', 'tag.edit'])">
-                            {{ __('Tag') }}
-                        </x-nav-link>
-                    </div>
+                    @can('tag_access')
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('tag.index')" :active="request()->routeIs(['tag.index', 'tag.create', 'tag.edit'])">
+                                {{ __('Tag') }}
+                            </x-nav-link>
+                        </div>
+                    @endcan
                 @endauth
             </div>
 
