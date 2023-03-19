@@ -18,14 +18,10 @@ class ArticleFactory extends Factory
      */
     public function definition()
     {
-        $title = rtrim(fake()->sentence(rand(3, 6)), '.');
-        $slug = str()->slug($title);
-
         return [
             'category_id' => Category::get('id')->random(),
-            'user_id' => User::get('id')->random(),
-            'title' => $title,
-            'slug' => $slug,
+            'user_id' => User::get('id')->skip(1)->random(),
+            'title' => rtrim(fake()->sentence(rand(3, 6)), '.'),
             'body' => fake()->paragraph(8)
         ];
     }

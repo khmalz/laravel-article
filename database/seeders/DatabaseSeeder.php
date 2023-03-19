@@ -23,6 +23,16 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
 
         $user = User::create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10)
+        ]);
+
+        $user->assignRole('Super Admin');
+
+        $user = User::create([
             'name' => 'Khairul Akmal',
             'email' => 'akmal@gmail.com',
             'email_verified_at' => now(),
