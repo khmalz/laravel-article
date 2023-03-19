@@ -47,6 +47,12 @@
                             {{ __('Category') }}
                         </x-nav-link>
                     </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('tag.index')" :active="request()->routeIs(['tag.index', 'tag.create', 'tag.edit'])">
+                            {{ __('Tag') }}
+                        </x-nav-link>
+                    </div>
                 @endauth
             </div>
 
@@ -155,6 +161,12 @@
             <div class="space-y-1 pt-2 pb-3">
                 <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs(['category.index', 'category.create', 'category.edit'])">
                     {{ __('Category') }}
+                </x-responsive-nav-link>
+            </div>
+
+            <div class="space-y-1 pt-2 pb-3">
+                <x-responsive-nav-link :href="route('tag.index')" :active="request()->routeIs(['tag.index', 'tag.create', 'tag.edit'])">
+                    {{ __('Tag') }}
                 </x-responsive-nav-link>
             </div>
 
