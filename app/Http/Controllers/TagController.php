@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TagRequest;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -28,7 +29,7 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
         // 
     }
@@ -52,7 +53,7 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tag $tag)
+    public function update(TagRequest $request, Tag $tag)
     {
         // 
     }
