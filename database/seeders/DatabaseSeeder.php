@@ -10,7 +10,6 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +20,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $this->call(PermissionSeeder::class);
+
+        $user = User::create([
             'name' => 'Khairul Akmal',
             'email' => 'akmal@gmail.com',
             'email_verified_at' => now(),
@@ -29,87 +30,47 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
 
-        User::factory(3)->create();
+        $user->assignRole('Admin');
 
-        Category::create([
-            'name' => 'Personal',
-            'slug' => 'personal'
-        ]);
+        $users = User::factory(3)->create();
 
-        Category::create([
-            'name' => 'Design',
-            'slug' => 'design'
-        ]);
+        foreach ($users as $user) {
+            $user->assignRole('User');
+        }
 
-        Category::create([
-            'name' => 'Web',
-            'slug' => 'web'
-        ]);
+        $categories = [
+            'Personal',
+            'Design',
+            'Web',
+            'Artificial Intelligence',
+            'Dev Ops',
+            'Machine Learning',
+            'Others'
+        ];
 
-        Category::create([
-            'name' => 'Artificial Intelligence',
-            'slug' => 'artificial-intelligence'
-        ]);
+        foreach ($categories as $category) {
+            Category::create([
+                'name' => $category,
+            ]);
+        }
 
-        Category::create([
-            'name' => 'Dev Ops',
-            'slug' => 'dev-ops'
-        ]);
+        $tags = [
+            'Laravel',
+            'PHP',
+            'Javascript',
+            'HTML',
+            'CSS',
+            'Java',
+            'C',
+            'C++',
+            'C#'
+        ];
 
-        Category::create([
-            'name' => 'Machine Learning',
-            'slug' => 'machine-learning'
-        ]);
-
-        Category::create([
-            'name' => 'Others',
-            'slug' => 'others'
-        ]);
-
-        Tag::create([
-            'name' => 'Laravel',
-            'slug' => 'laravel'
-        ]);
-
-        Tag::create([
-            'name' => 'PHP',
-            'slug' => 'php'
-        ]);
-
-        Tag::create([
-            'name' => 'Javascript',
-            'slug' => 'javascript'
-        ]);
-
-        Tag::create([
-            'name' => 'HTML',
-            'slug' => 'html'
-        ]);
-
-        Tag::create([
-            'name' => 'CSS',
-            'slug' => 'css'
-        ]);
-
-        Tag::create([
-            'name' => 'Java',
-            'slug' => 'java'
-        ]);
-
-        Tag::create([
-            'name' => 'C',
-            'slug' => 'c'
-        ]);
-
-        Tag::create([
-            'name' => 'C++',
-            'slug' => 'cplusplus'
-        ]);
-
-        Tag::create([
-            'name' => 'C#',
-            'slug' => 'csharp'
-        ]);
+        foreach ($tags as $tag) {
+            Tag::create([
+                'name' => $tag,
+            ]);
+        }
 
         Article::factory(30)->create();
 
