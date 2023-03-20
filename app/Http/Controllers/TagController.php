@@ -9,6 +9,11 @@ use Illuminate\View\View;
 
 class TagController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Tag::class, 'tag');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +36,9 @@ class TagController extends Controller
      */
     public function store(TagRequest $request)
     {
-        // 
+        Tag::create($request->validated());
+
+        return to_route('tag.index');
     }
 
     /**
@@ -55,7 +62,9 @@ class TagController extends Controller
      */
     public function update(TagRequest $request, Tag $tag)
     {
-        // 
+        $tag->update($request->validated());
+
+        return to_route('tag.index');
     }
 
     /**
@@ -63,6 +72,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return to_route('tag.index');
     }
 }

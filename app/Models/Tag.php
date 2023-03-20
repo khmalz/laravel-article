@@ -10,6 +10,8 @@ class Tag extends Model
 {
     use HasFactory, Sluggable;
 
+    protected $guarded = ['id'];
+
     public function getRouteKeyName()
     {
         return 'slug';
