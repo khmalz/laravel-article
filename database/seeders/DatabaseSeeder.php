@@ -33,6 +33,16 @@ class DatabaseSeeder extends Seeder
         $user->assignRole('Super Admin');
 
         $user = User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10)
+        ]);
+
+        $user->assignRole('Admin');
+
+        $user = User::create([
             'name' => 'Khairul Akmal',
             'email' => 'akmal@gmail.com',
             'email_verified_at' => now(),
@@ -40,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
 
-        $user->assignRole('Admin');
+        $user->assignRole('User');
 
         $users = User::factory(3)->create();
 
