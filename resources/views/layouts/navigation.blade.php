@@ -35,14 +35,14 @@
 
                 @auth
                     <!-- Navigation Links -->
-                    @if (!auth()->user()->hasRole('Super Admin'))
+                    @role('User')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-nav-link :href="route('articles.index')" :active="($articleId ? $articleId == auth()->user()->id : false) ||
                                 request()->routeIs(['articles.index', 'articles.create', 'articles.edit'])">
                                 {{ __('My Article') }}
                             </x-nav-link>
                         </div>
-                    @endif
+                    @endrole
 
                     @can('category_access')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

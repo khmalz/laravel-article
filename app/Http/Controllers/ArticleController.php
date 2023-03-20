@@ -11,11 +11,18 @@ use Illuminate\Http\RedirectResponse;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
+        abort_if(auth()->user()->hasRole('Super Admin'), 403);
+
         return view('articles.user.articles', ['articles' => Article::where('user_id', auth()->user()->id)->latest()->get()]);
     }
 
@@ -32,6 +39,8 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
+        abort_if(auth()->user()->hasRole('Super Admin'), 403);
+
         return view('articles.create', ["categories" => Category::get(), "tags" => Tag::get()]);
     }
 
@@ -71,6 +80,10 @@ class ArticleController extends Controller
     {
         $article->update($request->validated());
         $article->tags()->sync($request->tags);
+
+        if ($request->user()->hasRole('Super Admin')) {
+            return to_route('articles.all_articles');
+        }
 
         return to_route('articles.index');
     }
