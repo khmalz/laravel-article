@@ -40,8 +40,15 @@
                                                     <x-primary-button class="px-3">{{ __('Edit') }}
                                                     </x-primary-button>
                                                 </a>
-                                                <x-primary-button class="px-3">{{ __('Delete') }}
-                                                </x-primary-button>
+                                                <form action="{{ route('category.destroy', $category->slug) }}"
+                                                    class="inline-flex items-center" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <x-primary-button
+                                                        onclick="return confirm('Yakin untuk menghapusnya?')"
+                                                        class="px-3">{{ __('Delete') }}
+                                                    </x-primary-button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

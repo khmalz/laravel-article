@@ -19,11 +19,11 @@
                     <form action="{{ route('category.store') }}" method="post">
                         @csrf
                         <div class="mb-3 mt-5">
-                            <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input id="title"
+                            <x-input-label for="name" :value="__('Name')" />
+                            <x-text-input id="name"
                                 class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                type="text" name="title" :value="old('title')" autofocus />
-                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                                type="text" name="name" :value="old('name')" autofocus />
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
                         <x-primary-button>{{ __('Add Category') }}</x-primary-button>
