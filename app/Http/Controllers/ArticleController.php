@@ -21,7 +21,7 @@ class ArticleController extends Controller
      */
     public function index(): View
     {
-        abort_if(auth()->user()->hasRole('Super Admin'), 403);
+        abort_if(auth()->user()->hasRole('Super Admin'), 404);
 
         return view('articles.user.articles', ['articles' => Article::where('user_id', auth()->user()->id)->latest()->get()]);
     }
@@ -39,7 +39,7 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
-        abort_if(auth()->user()->hasRole('Super Admin'), 403);
+        abort_if(auth()->user()->hasRole('Super Admin'), 404);
 
         return view('articles.create', ["categories" => Category::get(), "tags" => Tag::get()]);
     }
