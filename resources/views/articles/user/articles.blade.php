@@ -38,7 +38,8 @@
                                 </svg>
                             </a>
                             <div class="flex items-center gap-x-1">
-                                <form action="{{ route('articles.destroy', $article->slug) }}" method="post">
+                                <form action="{{ route('articles.destroy', $article->slug) }}"
+                                    class="inline-flex items-center" method="post">
                                     @method('delete')
                                     @csrf
                                     <button type="submit" onclick="return confirm('Yakin untuk menghapusnya?')"

@@ -96,6 +96,10 @@ class ArticleController extends Controller
         $article->tags()->detach();
         $article->delete();
 
+        if (auth()->user()->hasRole('Super Admin')) {
+            return to_route('articles.all_articles');
+        }
+
         return to_route('articles.index');
 
     }
