@@ -13,7 +13,7 @@ class ArticleController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Article::class);
+        $this->authorizeResource(Article::class, 'article');
     }
 
     /**
@@ -21,7 +21,7 @@ class ArticleController extends Controller
      */
     public function index(): View
     {
-        abort_if(auth()->user()->hasRole('Super Admin'), 404);
+        abort_if(request()->user()->hasRole('Super Admin'), 404);
 
         return view('articles.user.articles', ['articles' => Article::where('user_id', auth()->user()->id)->latest()->get()]);
     }
@@ -39,7 +39,7 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
-        abort_if(auth()->user()->hasRole('Super Admin'), 404);
+        abort_if(request()->user()->hasRole('Super Admin'), 404);
 
         return view('articles.create', ["categories" => Category::get(), "tags" => Tag::get()]);
     }
@@ -96,7 +96,7 @@ class ArticleController extends Controller
         $article->tags()->detach();
         $article->delete();
 
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (request()->user()->hasRole('Super Admin')) {
             return to_route('articles.all_articles');
         }
 

@@ -38,6 +38,7 @@ class PermissionSeeder extends Seeder
 
         $adminPermissions = [
             'user_access',
+            'article_show',
             'category_access',
             'category_create',
             'category_show',

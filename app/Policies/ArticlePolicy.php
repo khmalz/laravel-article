@@ -21,7 +21,7 @@ class ArticlePolicy
      */
     public function view(User $user, Article $article): bool
     {
-        return $user->can('article_show') || $user->role('Admin');
+        return $user->can('article_show');
     }
 
     /**
@@ -53,7 +53,7 @@ class ArticlePolicy
      */
     public function restore(User $user, Article $article): bool
     {
-        return $user->can('article_edit');
+        return $user->can('article_edit') && $user->role('User') && $user->id == $article->user_id;
     }
 
     /**
@@ -61,6 +61,6 @@ class ArticlePolicy
      */
     public function forceDelete(User $user, Article $article): bool
     {
-        return $user->can('article_delete');
+        return $user->can('article_delete') && $user->role('User') && $user->id == $article->user_id;
     }
 }

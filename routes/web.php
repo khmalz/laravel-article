@@ -28,7 +28,7 @@ Route::get('/about-me', function () {
 Route::get('all-articles', [ArticleController::class, 'allArticles'])->name('articles.all_articles');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('articles', ArticleController::class);
+    Route::resource('articles', ArticleController::class)->middleware('role_or_permission:Super Admin|Admin|article_access');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
