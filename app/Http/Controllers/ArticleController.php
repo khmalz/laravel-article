@@ -54,8 +54,10 @@ class ArticleController extends Controller
         }
 
         $articles = $articles->latest()->get();
+        $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('articles.all-articles', compact('articles'));
+        return view('articles.all-articles', compact('articles', 'categories', 'tags'));
     }
 
     /**

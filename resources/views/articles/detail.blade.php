@@ -81,15 +81,16 @@
                     <div class="mt-10 flex flex-col gap-y-3">
                         <div class="w-100 flex gap-x-2">
                             <h5 class="min-w-[60px] text-sm">Category</h5>
-                            <span
-                                class="mr-2 rounded bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">{{ $article->category->name }}</span>
+                            <a href="{{ config('app.url') }}/all-articles?category={{ $article->category->name }}"
+                                class="mr-2 rounded bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800 hover:underline dark:bg-indigo-900 dark:text-indigo-300">{{ $article->category->name }}
+                            </a>
                         </div>
                         <div class="w-100 flex gap-x-2">
                             <h5 class="min-w-[60px] text-sm">Tag</h5>
                             <div class="flex flex-wrap gap-y-1">
                                 @foreach ($article->tags as $tag)
-                                    <span
-                                        class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $tag->name }}</span>
+                                    <a href="{{ config('app.url') }}/all-articles?tag={{ $tag->name }}"
+                                        class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $tag->name }}</a>
                                 @endforeach
                             </div>
                         </div>
