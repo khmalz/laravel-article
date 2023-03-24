@@ -39,7 +39,7 @@ class ArticleController extends Controller
         $articles = Article::where(function ($query) use ($q) {
             $query->where('title', 'like', "%$q%")
                 ->orWhere('body', 'like', "%$q%");
-        })->latest();
+        });
 
         if ($category) {
             $articles->whereHas('category', function ($query) use ($category) {
@@ -53,7 +53,7 @@ class ArticleController extends Controller
             });
         }
 
-        $articles = $articles->get();
+        $articles = $articles->latest()->get();
 
         return view('articles.all-articles', compact('articles'));
     }
