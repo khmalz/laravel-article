@@ -13,7 +13,7 @@ class Article extends Model
     use Sluggable;
 
     protected $guarded = ['id'];
-    protected $with = ['user', 'category'];
+    protected $with = ['user', 'category', 'tags'];
 
     protected $casts = [
         'created_at' => 'date: d M Y',

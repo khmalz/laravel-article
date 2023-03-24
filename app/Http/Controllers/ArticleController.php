@@ -33,13 +33,29 @@ class ArticleController extends Controller
     public function allArticles(Request $request): View
     {
         $q = $request->q;
+        $category = $request->category;
+        $tag = $request->tag;
 
         $articles = Article::where(function ($query) use ($q) {
             $query->where('title', 'like', "%$q%")
                 ->orWhere('body', 'like', "%$q%");
-        })->latest()->get();
+        })->latest();
 
-        return view('articles.all-articles', compact('articles', 'q'));
+        if ($category) {
+            $articles->whereHas('category', function ($query) use ($category) {
+                $query->where('name', $category);
+            });
+        }
+
+        if ($tag) {
+            $articles->whereHas('tags', function ($query) use ($tag) {
+                $query->where('name', $tag);
+            });
+        }
+
+        $articles = $articles->get();
+
+        return view('articles.all-articles', compact('articles'));
     }
 
     /**

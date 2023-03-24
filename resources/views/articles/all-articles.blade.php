@@ -1,6 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ __('All Article') }}</h2>
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ __('All Article') }}
+            @if (request('category'))
+                in {{ request('category') }}
+            @endif
+
+            @if (request('tag'))
+                in {{ request('tag') }}
+            @endif
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -10,6 +18,14 @@
                     <label for="default-search"
                         class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Search</label>
                     <div class="relative">
+                        @if (request('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                        @endif
+
+                        @if (request('tag'))
+                            <input type="hidden" name="tag" value="{{ request('tag') }}">
+                        @endif
+
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <svg aria-hidden="true" class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -19,11 +35,11 @@
                         </div>
                         <input type="search" id="default-search"
                             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                            placeholder="Search Article..." name="q" value="{{ $q }}">
+                            placeholder="Search Article..." name="q" value="{{ request('q') }}">
                         <div class="absolute right-2.5 bottom-2.5 flex items-center gap-x-2">
                             <button type="submit"
                                 class="rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-                            @if ($q)
+                            @if (request('q'))
                                 <a href="{{ url()->current() }}" type="reset"
                                     class="rounded-lg bg-rose-700 px-4 py-2 text-sm font-medium text-white hover:bg-rose-800 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:bg-rose-600 dark:hover:bg-rose-700 dark:focus:ring-rose-800">Reset</a>
                             @endif
@@ -36,8 +52,8 @@
                 @foreach ($articles as $article)
                     <div
                         class="flex max-w-lg flex-col flex-wrap items-start justify-between self-stretch rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
-                        <span
-                            class="mb-2 rounded bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">{{ $article->category->name }}</span>
+                        <a href="all-articles?category={{ $article->category->name }}"
+                            class="mb-2 rounded bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800 hover:underline dark:bg-indigo-900 dark:text-indigo-300">{{ $article->category->name }}</a>
                         <a href="articles/{{ $article->slug }}">
                             <h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{ $article->title }}</h1>
