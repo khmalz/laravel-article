@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\RedirectResponse;
 
@@ -29,9 +30,16 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function allArticles(): View
+    public function allArticles(Request $request): View
     {
-        return view('articles.all-articles', ['articles' => Article::latest()->get()]);
+        $q = $request->q;
+
+        $articles = Article::where(function ($query) use ($q) {
+            $query->where('title', 'like', "%$q%")
+                ->orWhere('body', 'like', "%$q%");
+        })->latest()->get();
+
+        return view('articles.all-articles', compact('articles', 'q'));
     }
 
     /**
