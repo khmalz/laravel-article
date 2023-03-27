@@ -22,19 +22,19 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl px-2.5 sm:px-6 lg:px-8">
             <div class="mx-auto mb-5 max-w-2xl">
-                <form method="GET">
+                <form method="GET" action="{{ url()->current() }}">
                     <div class="flex">
-                        <label for="search-dropdown"
+                        <label for="search-query"
                             class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Email</label>
                         <button data-modal-target="small-modal" data-modal-toggle="small-modal"
                             class="z-10 inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                             type="button">Filters</button>
 
                         <div class="relative w-full">
-                            <input type="search" id="search-dropdown"
+                            <input type="search" id="search-query"
                                 class="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
                                 placeholder="Search Article..." name="q" value="{{ request('q') }}">
-                            <button type="submit"
+                            <button type="submit" id="search-submit"
                                 class="absolute top-0 right-0 rounded-r-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +93,7 @@
                                     <!-- Modal footer -->
                                     <div
                                         class="flex items-center space-x-2 rounded-b border-t border-gray-200 p-6 dark:border-gray-600">
-                                        <button type="submit"
+                                        <button type="submit" id="filterSubmit"
                                             class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                                         <button type="reset" onclick="location.href ='{{ url()->current() }}'"
                                             class="rounded-lg border border-rose-200 bg-white px-5 py-2.5 text-sm font-medium text-rose-500 hover:bg-rose-100 hover:text-rose-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-rose-200 dark:border-rose-500 dark:bg-rose-700 dark:text-rose-300 dark:hover:bg-rose-600 dark:hover:text-white dark:focus:ring-rose-600">Reset</button>
@@ -145,6 +145,31 @@
     </div>
 
     <x-slot name="js">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#filterSubmit").click(function(e) {
+                    e.preventDefault()
+                    const text = $("#search-query").val();
+                    const regex = /title:(.*?)\sbody:(.*)/;
+
+                    // menambahkan logika tambahan untuk menangani kasus-kasus yang tidak memiliki "title" dan "body"
+                    let extractedText = text.match(regex);
+                    if (extractedText) {
+                        extractedText = extractedText[0];
+                    } else {
+                        extractedText = "";
+                    }
+
+                    $("#search-query").val(extractedText);
+
+                    setTimeout(() => {
+                        $('#search-submit').click()
+                    }, 700);
+                });
+            });
+        </script>
     </x-slot>
 </x-app-layout>

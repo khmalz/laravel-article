@@ -33,25 +33,51 @@ class ArticleController extends Controller
      */
     public function allArticles(Request $request): View
     {
-        $q = $request->q;
-        $categoryQ = $request->category;
-        $tagsQ = $request->tags;
+        $search = $request->q;
+        $articles = Article::query();
 
-        $articles = Article::where(function (Builder $query) use ($q) {
-            $query->where('title', 'like', "%$q%")
-                ->orWhere('body', 'like', "%$q%");
-        });
-
-        if ($categoryQ) {
-            $articles->whereHas('category', function (Builder $query) use ($categoryQ) {
-                $query->where('name', $categoryQ);
-            });
-        }
-
-        if ($tagsQ) {
-            $articles->whereHas('tags', function (Builder $query) use ($tagsQ) {
-                $query->whereIn('name', $tagsQ);
-            }, "=", count($tagsQ));
+        if (!empty($search)) {
+            $keywords = explode(' ', $search);
+            foreach ($keywords as $keyword) {
+                if (strpos($keyword, 'title:') === 0) {
+                    $titleKeyword = substr($keyword, 6);
+                    $articles->where(function ($query) use ($titleKeyword) {
+                        $query->where('title', 'like', "%$titleKeyword%");
+                    });
+                } elseif (strpos($keyword, 'body:') === 0) {
+                    $bodyKeyword = substr($keyword, 6);
+                    $articles->where(function ($query) use ($bodyKeyword) {
+                        $query->where('body', 'like', "%$bodyKeyword%");
+                    });
+                } elseif (strpos($keyword, 'category:') === 0) {
+                    $categoryKeyword = substr($keyword, 9);
+                    $articles->whereHas('category', function ($query) use ($categoryKeyword) {
+                        $query->where('name', 'like', "%$categoryKeyword%");
+                    });
+                } elseif (strpos($keyword, 'tag:') === 0) {
+                    $tagKeyword = substr($keyword, 4);
+                    $articles->whereHas('tags', function ($query) use ($tagKeyword) {
+                        $query->where('name', 'like', "%$tagKeyword%");
+                    });
+                } else {
+                    $articles->where(function ($query) use ($keyword) {
+                        $query->where('title', 'like', "%$keyword%")
+                            ->orWhere('body', 'like', "%$keyword%")
+                            ->orWhereHas(
+                                'category',
+                                function ($query) use ($keyword) {
+                                    $query->where('name', 'like', "%$keyword%");
+                                }
+                            )
+                            ->orWhereHas(
+                                'tags',
+                                function ($query) use ($keyword) {
+                                    $query->where('name', 'like', "%$keyword%");
+                                }
+                            );
+                    });
+                }
+            }
         }
 
         $articles = $articles->latest()->get();
