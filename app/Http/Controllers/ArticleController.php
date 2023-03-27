@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\Eloquent\Builder;
 
 class ArticleController extends Controller
 {
@@ -33,24 +34,24 @@ class ArticleController extends Controller
     public function allArticles(Request $request): View
     {
         $q = $request->q;
-        $category = $request->category;
-        $tag = $request->tag;
+        $categoryQ = $request->category;
+        $tagsQ = $request->tags;
 
-        $articles = Article::where(function ($query) use ($q) {
+        $articles = Article::where(function (Builder $query) use ($q) {
             $query->where('title', 'like', "%$q%")
                 ->orWhere('body', 'like', "%$q%");
         });
 
-        if ($category) {
-            $articles->whereHas('category', function ($query) use ($category) {
-                $query->where('name', $category);
+        if ($categoryQ) {
+            $articles->whereHas('category', function (Builder $query) use ($categoryQ) {
+                $query->where('name', $categoryQ);
             });
         }
 
-        if ($tag) {
-            $articles->whereHas('tags', function ($query) use ($tag) {
-                $query->where('name', $tag);
-            });
+        if ($tagsQ) {
+            $articles->whereHas('tags', function (Builder $query) use ($tagsQ) {
+                $query->whereIn('name', $tagsQ);
+            }, "=", count($tagsQ));
         }
 
         $articles = $articles->latest()->get();

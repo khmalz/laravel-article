@@ -82,10 +82,10 @@
                                                 @foreach ($tags as $tag)
                                                     <label for="{{ $tag->slug }}"
                                                         class="ml-2 flex items-center gap-x-1 text-sm font-medium text-gray-900 dark:text-gray-300"><input
-                                                            id="{{ $tag->slug }}" type="radio"
-                                                            {{ request('tag') == $tag->name ? 'checked' : '' }}
-                                                            value="{{ $tag->name }}" name="tag"
-                                                            class="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600">{{ $tag->name }}</label>
+                                                            id="{{ $tag->slug }}" type="checkbox"
+                                                            {{ in_array($tag->name, request('tags') ?? []) ? 'checked' : '' }}
+                                                            value="{{ $tag->name }}" name="tags[]"
+                                                            class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600">{{ $tag->name }}</label>
                                                 @endforeach
                                             </div>
                                         </div>
