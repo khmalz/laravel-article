@@ -90,7 +90,7 @@
                             <div class="flex flex-wrap gap-y-1">
                                 @foreach ($article->tags as $tag)
                                     <a href="{{ config('app.url') }}/all-articles?tag={{ $tag->name }}"
-                                        class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">{{ $tag->name }}</a>
+                                        class="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 hover:underline dark:bg-red-900 dark:text-red-300">{{ $tag->name }}</a>
                                 @endforeach
                             </div>
                         </div>
