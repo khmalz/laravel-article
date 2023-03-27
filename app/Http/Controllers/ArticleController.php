@@ -31,30 +31,9 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function allArticles(Request $request): View
+    public function allArticles(): View
     {
-        $q = $request->q;
-        $categoryQ = $request->category;
-        $tagsQ = $request->tags;
-
-        $articles = Article::where(function (Builder $query) use ($q) {
-            $query->where('title', 'like', "%$q%")
-                ->orWhere('body', 'like', "%$q%");
-        });
-
-        if ($categoryQ) {
-            $articles->whereHas('category', function (Builder $query) use ($categoryQ) {
-                $query->where('name', $categoryQ);
-            });
-        }
-
-        if ($tagsQ) {
-            $articles->whereHas('tags', function (Builder $query) use ($tagsQ) {
-                $query->whereIn('name', $tagsQ);
-            }, "=", count($tagsQ));
-        }
-
-        $articles = $articles->latest()->get();
+        $articles = Article::search(request(['q', 'category', 'tags']))->latest()->get();
         $categories = Category::all();
         $tags = Tag::all();
 

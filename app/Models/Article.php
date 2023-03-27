@@ -45,6 +45,35 @@ class Article extends Model
         return 'slug';
     }
 
+    public function scopeSearch($query, array $search)
+    {
+        $query->when($search['q'] ?? false, function ($query, $search) {
+            return $query->where('title', 'like', "%$search%")
+                ->orWhere('body', 'like', "%$search%");
+        });
+
+        $query->when($search['category'] ?? false, function ($query, $category) {
+            return $query->whereHas(
+                'category',
+                function ($query) use ($category) {
+                    $query->where('name', $category);
+                }
+            );
+        });
+
+        $query->when($search['tags'] ?? false, function ($query, $tags) {
+            return $query->whereHas(
+                'tags',
+                function ($query) use ($tags) {
+                    $query->whereIn('name', $tags);
+                }
+                ,
+                "=",
+                count($tags)
+            );
+        });
+    }
+
     public function sluggable(): array
     {
         return [
