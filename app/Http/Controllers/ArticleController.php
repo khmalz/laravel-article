@@ -33,7 +33,7 @@ class ArticleController extends Controller
      */
     public function allArticles(): View
     {
-        $articles = Article::search(request(['q', 'category', 'tags']))->latest()->get();
+        $articles = Article::search(request(['q', 'category', 'tags', 'author']))->latest()->get();
         $categories = Category::all();
         $tags = Tag::all();
 

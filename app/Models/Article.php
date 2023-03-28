@@ -72,6 +72,15 @@ class Article extends Model
                 count($tags)
             );
         });
+
+        $query->when($search['author'] ?? false, function ($query, $author) {
+            return $query->whereHas(
+                'author',
+                function ($query) use ($author) {
+                    $query->where('name', 'like', "%$author%");
+                }
+            );
+        });
     }
 
     public function sluggable(): array

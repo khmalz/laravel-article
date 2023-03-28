@@ -15,6 +15,10 @@
                 @if (request('tag'))
                     in {{ request('tag') }}
                 @endif
+
+                @if (request('author') && !request('select'))
+                    By {{ $articles[0]->author->name }}
+                @endif
             @endif
         </h2>
     </x-slot>
@@ -36,14 +40,22 @@
                                 query</label>
                             <select id="select-query" name="select"
                                 class="z-10 inline-flex flex-shrink-0 flex-col rounded-r-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700 sm:rounded-none">
-                                <option selected value="article">All Articles</option>
-                                <option value="author">Author</option>
+                                <option {{ request('select') == 'article' ? 'selected' : '' }} selected value="article">
+                                    All Articles</option>
+                                <option {{ request('select') == 'author' ? 'selected' : '' }} value="author">Author
+                                </option>
                             </select>
                         </div>
                         <div class="relative w-full">
+                            @if (request('author'))
+                                <input type="hidden" name="author" value="{{ request('author') }}">
+                            @endif
+
                             <input type="search" id="search-query"
                                 class="z-20 block w-full rounded-r-lg rounded-l-lg border border-l-2 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 sm:rounded-l-none sm:border-l-gray-50"
-                                placeholder="Search Article..." name="q" value="{{ request('q') }}">
+                                placeholder="Search Article..."
+                                name="{{ request('author') && request('select') == 'author' ? 'author' : 'q' }}"
+                                value="{{ request('author') && request('select') == 'author' ? request('author') : request('q') }}">
                             <button type="submit"
                                 class="absolute top-0 right-0 rounded-r-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor"
@@ -147,7 +159,9 @@
                                 {{ $article->body }}</p>
                             <div class="flex w-full items-center justify-between">
                                 <h5 class="text-xs tracking-tight text-gray-500 dark:text-white sm:text-sm">By
-                                    {{ $article->user->name }}</h5>
+                                    <a href="all-articles?author={{ $article->author->name }}"
+                                        class="hover:underline">{{ $article->author->name }}</a>
+                                </h5>
                                 <a href="articles/{{ $article->slug }}"
                                     class="inline-flex items-center rounded-lg bg-blue-700 py-2 px-3 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Read
                                     More
@@ -173,7 +187,9 @@
         <script>
             $("#select-query").change(function() {
                 let placeholder = ($(this).val() === "author") ? "Search Author..." : "Search Article...";
+                let name = ($(this).val() === "author") ? "author" : "q";
                 $("#search-query").attr("placeholder", placeholder);
+                $("#search-query").attr("name", name);
             });
         </script>
     </x-slot>
