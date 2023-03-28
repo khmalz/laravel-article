@@ -45,14 +45,18 @@ class Article extends Model
         return 'slug';
     }
 
-    public function scopeSearch($query, array $search)
+    public function scopeSearch($query, array $searches)
     {
-        $query->when($search['q'] ?? false, function ($query, $search) {
-            return $query->where('title', 'like', "%$search%")
-                ->orWhere('body', 'like', "%$search%");
+        $query->when($searches['q'] ?? false, function ($query, $search) {
+            return $query->where(
+                function ($query) use ($search) {
+                    $query->where('title', 'like', "%$search%")
+                        ->orWhere('body', 'like', "%$search%");
+                }
+            );
         });
 
-        $query->when($search['category'] ?? false, function ($query, $category) {
+        $query->when($searches['category'] ?? false, function ($query, $category) {
             return $query->whereHas(
                 'category',
                 function ($query) use ($category) {
@@ -61,7 +65,7 @@ class Article extends Model
             );
         });
 
-        $query->when($search['tags'] ?? false, function ($query, $tags) {
+        $query->when($searches['tags'] ?? false, function ($query, $tags) {
             return $query->whereHas(
                 'tags',
                 function ($query) use ($tags) {
@@ -73,7 +77,7 @@ class Article extends Model
             );
         });
 
-        $query->when($search['author'] ?? false, function ($query, $author) {
+        $query->when($searches['author'] ?? false, function ($query, $author) {
             return $query->whereHas(
                 'author',
                 function ($query) use ($author) {
