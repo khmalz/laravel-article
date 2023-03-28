@@ -13,7 +13,7 @@ class Article extends Model
     use Sluggable;
 
     protected $guarded = ['id'];
-    protected $with = ['user', 'category', 'tags'];
+    protected $with = ['author', 'category', 'tags'];
 
     protected $casts = [
         'created_at' => 'date: d M Y',
@@ -25,7 +25,7 @@ class Article extends Model
         return Carbon::parse($value)->format('d F Y');
     }
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
