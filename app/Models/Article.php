@@ -45,6 +45,11 @@ class Article extends Model
         return 'slug';
     }
 
+    public function scopeGetByUser($query)
+    {
+        return $query->where('user_id', auth()->id());
+    }
+
     public function scopeSearch($query, array $searches)
     {
         $query->when($searches['q'] ?? false, function ($query, $search) {

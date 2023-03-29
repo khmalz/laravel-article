@@ -25,7 +25,7 @@ class ArticleController extends Controller
     {
         abort_if(request()->user()->hasRole('Super Admin'), 404);
 
-        $articles = Article::where('user_id', auth()->id())->search(request(['q', 'category', 'tags']))->latest()->get();
+        $articles = Article::getByUser()->search(request(['q', 'category', 'tags']))->latest()->get();
         $categories = Category::all();
         $tags = Tag::all();
 
