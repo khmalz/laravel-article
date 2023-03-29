@@ -5,20 +5,12 @@
 
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ __('All Article') }}
-            @if (request('category') && request('tag'))
-                in {{ request('category') }} & {{ request('tag') }}
-            @else
-                @if (request('category'))
-                    in {{ request('category') }}
-                @endif
+            @if (request('category'))
+                in {{ request('category') }}
+            @endif
 
-                @if (request('tag'))
-                    in {{ request('tag') }}
-                @endif
-
-                @if (request('author') && !request('select'))
-                    By {{ $articles[0]->author->name }}
-                @endif
+            @if (request('author') && !request('select'))
+                By {{ $articles[0]->author->name }}
             @endif
         </h2>
     </x-slot>

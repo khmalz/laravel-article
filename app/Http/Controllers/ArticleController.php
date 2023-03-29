@@ -25,7 +25,11 @@ class ArticleController extends Controller
     {
         abort_if(request()->user()->hasRole('Super Admin'), 404);
 
-        return view('articles.user.articles', ['articles' => Article::where('user_id', auth()->user()->id)->latest()->get()]);
+        $articles = Article::where('user_id', auth()->id())->search(request(['q', 'category', 'tags']))->latest()->get();
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('articles.user.articles', compact('articles', 'categories', 'tags'));
     }
 
     /**
