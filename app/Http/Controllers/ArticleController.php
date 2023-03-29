@@ -6,10 +6,8 @@ use App\Models\Tag;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Database\Eloquent\Builder;
 
 class ArticleController extends Controller
 {
