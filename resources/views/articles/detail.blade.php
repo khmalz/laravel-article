@@ -2,7 +2,7 @@
     <x-slot name="header">
         @auth
             <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                {{ auth()->user()->name == $article->user->name ? __('My Article') : __('Article') }}</h2>
+                {{ auth()->user()->name == $article->author->name ? __('My Article') : __('Article') }}</h2>
         @else
             <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ __('Article') }}</h2>
         @endauth
@@ -15,7 +15,7 @@
                     <h1 class="text-3xl font-bold">{{ $article->title }}</h1>
                     <div>
                         <h3 class="text-sm text-gray-500/90">
-                            By {{ $article->user->name }}
+                            By {{ $article->author->name }}
                         </h3>
                         <h3 class="text-xs text-gray-500/90">
                             Published at {{ $article->created_at }}

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TagRequest;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TagController extends Controller
@@ -19,7 +18,7 @@ class TagController extends Controller
      */
     public function index(): View
     {
-        $tags = Tag::get();
+        $tags = Tag::all();
         return view('tag.index', compact('tags'));
     }
 

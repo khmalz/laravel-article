@@ -17,7 +17,7 @@
 
                     <form action="{{ route('articles.store') }}" method="post">
                         @csrf
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
 
                         <div class="mb-3 mt-5">
                             <x-input-label for="title" :value="__('Title')" />

@@ -13,7 +13,7 @@ class Article extends Model
     use Sluggable;
 
     protected $guarded = ['id'];
-    protected $with = ['user', 'category', 'tags'];
+    protected $with = ['author', 'category', 'tags'];
 
     protected $casts = [
         'created_at' => 'date: d M Y',
@@ -25,7 +25,7 @@ class Article extends Model
         return Carbon::parse($value)->format('d F Y');
     }
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -45,14 +45,23 @@ class Article extends Model
         return 'slug';
     }
 
-    public function scopeSearch($query, array $search)
+    public function scopeGetByUser($query)
     {
-        $query->when($search['q'] ?? false, function ($query, $search) {
-            return $query->where('title', 'like', "%$search%")
-                ->orWhere('body', 'like', "%$search%");
+        return $query->where('user_id', auth()->id());
+    }
+
+    public function scopeSearch($query, array $searches)
+    {
+        $query->when($searches['q'] ?? false, function ($query, $search) {
+            return $query->where(
+                function ($query) use ($search) {
+                    $query->where('title', 'like', "%$search%")
+                        ->orWhere('body', 'like', "%$search%");
+                }
+            );
         });
 
-        $query->when($search['category'] ?? false, function ($query, $category) {
+        $query->when($searches['category'] ?? false, function ($query, $category) {
             return $query->whereHas(
                 'category',
                 function ($query) use ($category) {
@@ -61,7 +70,7 @@ class Article extends Model
             );
         });
 
-        $query->when($search['tags'] ?? false, function ($query, $tags) {
+        $query->when($searches['tags'] ?? false, function ($query, $tags) {
             return $query->whereHas(
                 'tags',
                 function ($query) use ($tags) {
@@ -70,6 +79,15 @@ class Article extends Model
                 ,
                 "=",
                 count($tags)
+            );
+        });
+
+        $query->when($searches['author'] ?? false, function ($query, $author) {
+            return $query->whereHas(
+                'author',
+                function ($query) use ($author) {
+                    $query->where('name', 'like', "%$author%");
+                }
             );
         });
     }

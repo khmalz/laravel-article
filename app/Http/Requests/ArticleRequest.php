@@ -28,6 +28,7 @@ class ArticleRequest extends FormRequest
             'user_id' => ['required'],
             'category_id' => ['required'],
             'tags' => ['required', 'array', 'min:1'],
+            'tags.*' => ['exists:tags,id'],
             'body' => ['required']
         ];
     }

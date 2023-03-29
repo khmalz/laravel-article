@@ -6,10 +6,8 @@ use App\Models\Tag;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Database\Eloquent\Builder;
 
 class ArticleController extends Controller
 {
@@ -25,15 +23,19 @@ class ArticleController extends Controller
     {
         abort_if(request()->user()->hasRole('Super Admin'), 404);
 
-        return view('articles.user.articles', ['articles' => Article::where('user_id', auth()->user()->id)->latest()->get()]);
+        $articles = Article::getByUser()->search(request(['q', 'category', 'tags']))->latest()->get();
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('articles.user.articles', compact('articles', 'categories', 'tags'));
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function allArticles(Request $request): View
+    public function allArticles(): View
     {
-        $search = $request->q;
+        $search = request('q');
         $articles = Article::query();
 
         if (!empty($search)) {

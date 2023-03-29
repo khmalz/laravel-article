@@ -5,36 +5,46 @@
 
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ __('All Article') }}
-            @if (request('category') && request('tag'))
-                in {{ request('category') }} & {{ request('tag') }}
-            @else
-                @if (request('category'))
-                    in {{ request('category') }}
-                @endif
+            @if (request('category'))
+                in {{ request('category') }}
+            @endif
 
-                @if (request('tag'))
-                    in {{ request('tag') }}
-                @endif
+            @if (request('author') && !request('select'))
+                By {{ $articles[0]->author->name }}
             @endif
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl px-2.5 sm:px-6 lg:px-8">
-            <div class="mx-auto mb-5 max-w-2xl">
-                <form method="GET" action="{{ url()->current() }}">
-                    <div class="flex">
-                        <label for="search-query"
-                            class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Email</label>
-                        <button data-modal-target="small-modal" data-modal-toggle="small-modal"
-                            class="z-10 inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                            type="button">Filters</button>
-
+            <div class="mx-auto mb-5 max-w-3xl">
+                <form method="GET">
+                    <div class="sm:flex">
+                        <div class="mb-0.5 flex sm:mb-0">
+                            <label for="search-query"
+                                class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                query</label>
+                            <button data-modal-target="small-modal" data-modal-toggle="small-modal"
+                                class="z-10 inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                                type="button">Filters</button>
+                            <label for="select-query"
+                                class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                query</label>
+                            <select id="select-query" name="select"
+                                class="z-10 inline-flex flex-shrink-0 flex-col rounded-r-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700 sm:rounded-none">
+                                <option {{ request('select') == 'article' ? 'selected' : '' }} selected value="article">
+                                    All Articles</option>
+                                <option {{ request('select') == 'author' ? 'selected' : '' }} value="author">Author
+                                </option>
+                            </select>
+                        </div>
                         <div class="relative w-full">
                             <input type="search" id="search-query"
-                                class="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
-                                placeholder="Search Article..." name="q" value="{{ request('q') }}">
-                            <button type="submit" id="search-submit"
+                                class="z-20 block w-full rounded-r-lg rounded-l-lg border border-l-2 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 sm:rounded-l-none sm:border-l-gray-50"
+                                placeholder="Search Article..."
+                                name="{{ request('author') && request('select') == 'author' ? 'author' : 'q' }}"
+                                value="{{ request('author') && request('select') == 'author' ? request('author') : request('q') }}">
+                            <button type="submit"
                                 class="absolute top-0 right-0 rounded-r-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -52,10 +62,22 @@
                                 <!-- Modal content -->
                                 <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
                                     <!-- Modal header -->
-                                    <div class="rounded-t border-b p-5 dark:border-gray-600">
+                                    <div
+                                        class="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
                                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">
                                             Filters
                                         </h3>
+                                        <button type="button"
+                                            class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            data-modal-hide="small-modal">
+                                            <svg aria-hidden="true" class="h-5 w-5" fill="currentColor"
+                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
                                     </div>
                                     <!-- Modal body -->
                                     <div class="space-y-6 p-6">
@@ -125,7 +147,9 @@
                                 {{ $article->body }}</p>
                             <div class="flex w-full items-center justify-between">
                                 <h5 class="text-xs tracking-tight text-gray-500 dark:text-white sm:text-sm">By
-                                    {{ $article->user->name }}</h5>
+                                    <a href="all-articles?author={{ $article->author->name }}"
+                                        class="hover:underline">{{ $article->author->name }}</a>
+                                </h5>
                                 <a href="articles/{{ $article->slug }}"
                                     class="inline-flex items-center rounded-lg bg-blue-700 py-2 px-3 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Read
                                     More
@@ -150,26 +174,32 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
         <script>
             $(document).ready(function() {
-                $("#filterSubmit").click(function(e) {
-                    e.preventDefault()
-                    const text = $("#search-query").val();
-                    const regex = /title:(.*?)\sbody:(.*)/;
+                        $("#filterSubmit").click(function(e) {
+                            e.preventDefault()
+                            const text = $("#search-query").val();
+                            const regex = /title:(.*?)\sbody:(.*)/;
 
-                    // menambahkan logika tambahan untuk menangani kasus-kasus yang tidak memiliki "title" dan "body"
-                    let extractedText = text.match(regex);
-                    if (extractedText) {
-                        extractedText = extractedText[0];
-                    } else {
-                        extractedText = "";
-                    }
+                            // menambahkan logika tambahan untuk menangani kasus-kasus yang tidak memiliki "title" dan "body"
+                            let extractedText = text.match(regex);
+                            if (extractedText) {
+                                extractedText = extractedText[0];
+                            } else {
+                                extractedText = "";
+                            }
 
-                    $("#search-query").val(extractedText);
+                            $("#search-query").val(extractedText);
 
-                    setTimeout(() => {
-                        $('#search-submit').click()
-                    }, 700);
-                });
-            });
+                            setTimeout(() => {
+                                $('#search-submit').click()
+                            }, 700);
+                        });
+
+                        $("#select-query").change(function() {
+                            let placeholder = ($(this).val() === "author") ? "Search Author..." : "Search Article...";
+                            let name = ($(this).val() === "author") ? "author" : "q";
+                            $("#search-query").attr("placeholder", placeholder);
+                            $("#search-query").attr("name", name);
+                        });
         </script>
     </x-slot>
 </x-app-layout>
