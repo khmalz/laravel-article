@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         $user->assignRole('User');
 
-        $users = User::factory(3)->create();
+        $users = User::factory(5)->create();
 
         foreach ($users as $user) {
             $user->assignRole('User');
@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Article::factory(30)->create();
+        Article::factory(50)->create();
 
         $tags = Tag::get();
 
